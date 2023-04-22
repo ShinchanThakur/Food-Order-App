@@ -1,5 +1,5 @@
+import Background from './Background';
 import styles from './Header.module.css';
-import mealsImage from '../../assets/meals.jpg';
 import HeaderCartButton from './HeaderCartButton';
 
 const Header = () => {
@@ -9,9 +9,7 @@ const Header = () => {
                 <h1>TastyMeals</h1>
                 <HeaderCartButton />
             </header>
-            <div className={styles['main-image']}>
-                <img src={mealsImage} alt='A table full of delicious food!' />
-            </div>
+            <Background />
         </>
     )
 }
