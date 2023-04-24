@@ -7,7 +7,17 @@ const MealItemForm = props => {
     }
     return (
         <form className={styles.form} onSubmit={onAddMealHandler}>
-            <Input label="Amount" input={{ ...props, type: 'number' }} />
+            <Input label="Amount" input={
+                {
+                    ...props,
+                    type: 'number',
+                    id: 'amount_' + props.id,
+                    min: '1',
+                    max: '5',
+                    step: '1',
+                    defaultValue: '1'
+                }
+            } />
             <button>+ Add</button>
         </form>
     )
