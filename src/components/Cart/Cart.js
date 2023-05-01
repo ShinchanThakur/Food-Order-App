@@ -6,7 +6,10 @@ import CartContext from '../../store/cart-context';
 
 const Cart = props => {
     const cartCtx = useContext(CartContext);
-    const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+    let totalAmountNumber = cartCtx.totalAmount;
+    if (totalAmountNumber < 0)
+        totalAmountNumber = 0;
+    const totalAmount = `$${totalAmountNumber.toFixed(2)}`;
     const hasItems = cartCtx.items.length > 0;
     const cartItemAddHandler = item => {
         cartCtx.addItem({ ...item, amount: 1 });
@@ -17,7 +20,6 @@ const Cart = props => {
     const cartItems = (
         <ul className={styles['cart-items']}>
             {cartCtx.items.map((item) => {
-                console.log(item);
                 return <CartItem
                     key={item.id}
                     price={item.price}
