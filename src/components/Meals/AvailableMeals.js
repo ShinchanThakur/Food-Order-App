@@ -12,10 +12,8 @@ const AvailableMeals = () => {
                 <ul>
                     {meals.map((meal) => {
                         return <MealItem
+                            {...meal}
                             key={meal.id}
-                            name={meal.name}
-                            description={meal.description}
-                            price={meal.price}
                         />
                     })}
                 </ul>

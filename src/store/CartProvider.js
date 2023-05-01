@@ -8,8 +8,36 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
     if (action.type === 'ADD_ITEM') {
-        const updatedItems = state.items.concat(action.item);
-        const updatedTotalAmount = state.items.totalAmount + (action.item.price * action.item.amount);
+        const updatedTotalAmount = state.totalAmount + (action.item.price * action.item.amount);
+        const existingCartItemIndex = state.items.findIndex(item => item.id === action.item.id);
+        const existingCartItem = state.items[existingCartItemIndex];
+        let updatedItems;
+        if (existingCartItem) {
+            const updatedItem = { ...existingCartItem, amount: existingCartItem.amount + action.item.amount };
+            updatedItems = [...state.items];
+            updatedItems[existingCartItemIndex] = updatedItem;
+        }
+        else {
+            updatedItems = state.items.concat(action.item);
+        }
+        return {
+            items: updatedItems,
+            totalAmount: updatedTotalAmount
+        };
+    }
+    if (action.type === 'REMOVE_ITEM') {
+        const existingCartItemIndex = state.items.findIndex(item => item.id === action.id);
+        const existingCartItem = state.items[existingCartItemIndex];
+        if (!existingCartItem) return state;
+        let updatedItems = [...state.items];
+        const updatedTotalAmount = state.totalAmount - state.items[existingCartItem].price;
+        if (existingCartItem.amount === 1) {
+            updatedItems = updatedItems.filter(item => item.id !== action.id);
+        }
+        else {
+            const updatedItem = { ...existingCartItem, amount: existingCartItem.amount - 1 };
+            updatedItems[existingCartItemIndex] = updatedItem;
+        }
         return {
             items: updatedItems,
             totalAmount: updatedTotalAmount
@@ -28,7 +56,10 @@ const CartProvider = props => {
         })
     }
     const removeItemFromCartHandler = id => {
-
+        dispatchCartAction({
+            type: 'REMOVE_ITEM',
+            id: id
+        })
     }
     const cartContext = {
         items: cartState.items,

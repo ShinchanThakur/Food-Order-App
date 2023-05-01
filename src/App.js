@@ -12,10 +12,9 @@ function App() {
   const hideCartHandler = _ => {
     setShowCart(false);
   }
-  const tempCartItem = { id: 'c1', name: 'Sushi', amount: 2, price: 12.99 };
   return (
     <CartProvider>
-      {showCart && <Cart cart={[{ ...tempCartItem }]} onHideCart={hideCartHandler} />}
+      {showCart && <Cart onHideCart={hideCartHandler} />}
       <Header onShowCart={showCartHandler} />
       <main>
         <Meals />
